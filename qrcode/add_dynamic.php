@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $dynamic_qrcode->add();
 ?>
 
+<script src="./lib/qrcode-with-logos.esm.js"></script>
+
 <!DOCTYPE html>
 <html lang="en">
     <title>Add dynamic - Qrcode Generator</title>
@@ -81,29 +83,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 <!-- Page script -->
 <script type="text/javascript">
-$(document).ready(function(){
-   $('#dynamic_form').validate({
-       rules: {
-            filename: {
-                required: true,
-            },
-            link: {
-                required: true,
-                minlength: 3
-            },   
-        }
-    });
-});
+// $(document).ready(function(){
+//    $('#dynamic_form').validate({
+//        rules: {
+//             filename: {
+//                 required: true,
+//             },
+//             link: {
+//                 required: true,
+//                 minlength: 3
+//             },   
+//         }
+//     });
+// });
 
 function qrlogoscript() {
   console.log("ok");
 
   window.demo = new QrCodeWithLogo({
-    canvas: document.getElementById("canvas") as HTMLCanvasElement,
+    canvas: document.getElementById("canvas"),
     content: "https://github.com/zxpsuper",
     width: 380,
     download: true,
-    image: document.getElementById("image") as HTMLImageElement,
+    image: document.getElementById("image"),
     logo: {
       src: Logo
     },

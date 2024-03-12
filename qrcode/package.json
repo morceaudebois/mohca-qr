@@ -54,6 +54,7 @@
     "webpack-cli": "^3.3.5"
   },
   "dependencies": {
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "qrcode-with-logos": "^1.0.5"
   }
 }
