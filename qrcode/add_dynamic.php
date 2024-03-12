@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             <div class="card-header">
                 <h3 class="card-title">Enter the requested data</h3>
             </div>
-            <form class="form" action="" method="post" id="dynamic_form" enctype="multipart/form-data">
+            <form class="form">
                 <div class="card-body">
                 <?php include BASE_PATH.'/forms/add_dynamic_form.php'; ?>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" onclick="qrlogoscript()">Submit</button>
                 </div>
             </form>
         </div>
@@ -94,6 +94,27 @@ $(document).ready(function(){
         }
     });
 });
+
+function qrlogoscript() {
+  console.log("ok");
+
+  window.demo = new QrCodeWithLogo({
+    canvas: document.getElementById("canvas") as HTMLCanvasElement,
+    content: "https://github.com/zxpsuper",
+    width: 380,
+    download: true,
+    image: document.getElementById("image") as HTMLImageElement,
+    logo: {
+      src: Logo
+    },
+    nodeQrCodeOptions: {
+      color: {
+        light: '#00000000'
+      }
+    }
+  });
+}
+
 </script>
 <script>
   $(function () {
@@ -108,6 +129,7 @@ $(document).ready(function(){
     });
 
   })
+
 </script>
 </body>
 </html>
