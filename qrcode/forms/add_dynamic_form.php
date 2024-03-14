@@ -51,13 +51,13 @@
         </div>
     </div>
 
-<!-- Its use is not recommended. Read the documentation
-    <div class="form-group">
-        <label for="logo">Logo</label>
-        <?php //include 'logo.php' ?>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="logo">Logo</label>
+            <input type="file" name="logo" />
+        </div>
     </div>
-    -->
-    
+
     <div class="col-sm-4">
         <div class="form-group">
             <label for="link">URL *</label>
@@ -82,16 +82,16 @@
         </div>
     </div>
     
-    <div class="col-6 col-md-1">
-                <label for="format">Format</label>
-                <select name="format" class="form-control">
-                    <option value="png">PNG</option>
-                    <option value="gif">GIF</option>
-                    <option value="jpeg">JPEG</option>
-                    <option value="jpg">JPG</option>
-                    <option value="svg">SVG</option>
-                    <option value="eps">EPS</option>
-                </select>
+    <div class="col-6 col-md-1" style="display: none">
+        <label for="format">Format</label>
+        <select name="format" class="form-control">
+            <option value="png">PNG</option>
+            <option value="gif">GIF</option>
+            <option value="jpeg">JPEG</option>
+            <option value="jpg">JPG</option>
+            <option value="svg">SVG</option>
+            <option value="eps">EPS</option>
+        </select>
     </div>
   </div>
 </div>

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $dynamic_qrcode->add();
 ?>
 
-<script src="./lib/qrcode-with-logos.esm.js"></script>
+<script src="./lib/qrcode-with-logos.min.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             <div class="card-header">
                 <h3 class="card-title">Enter the requested data</h3>
             </div>
-            <form class="form">
+            <form class="form" method="post" enctype="multipart/form-data">
                 <div class="card-body">
                 <?php include BASE_PATH.'/forms/add_dynamic_form.php'; ?>
                 </div>
@@ -97,25 +97,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //     });
 // });
 
-function qrlogoscript() {
-  console.log("ok");
 
-  window.demo = new QrCodeWithLogo({
-    canvas: document.getElementById("canvas"),
-    content: "https://github.com/zxpsuper",
-    width: 380,
-    download: true,
-    image: document.getElementById("image"),
-    logo: {
-      src: Logo
-    },
-    nodeQrCodeOptions: {
-      color: {
-        light: '#00000000'
-      }
-    }
-  });
+  function qrlogoscript() {
+    var backgroundValue = document.getElementById('background').value;
+    var foregroundValue = document.getElementById('foreground').value;
+    var sizeValue = document.querySelector('select[name="size"]').value;
+    var levelValue = document.querySelector('select[name="level"]').value;
+    var logoFile = document.querySelector('input[name="logo"]').files[0];
+    var linkValue = document.querySelector('input[name="link"]').value;
+    var filenameValue = document.querySelector('input[name="filename"]').value;
+    // var formatValue = document.querySelector('select[name="format"]').value;
+
+    // console.log('Background color:', backgroundValue);
+    // console.log('Foreground color:', foregroundValue);
+    // console.log('Level:', levelValue);
+    // console.log('Size:', sizeValue);
+    // console.log('Logo file:', logoFile);
+    // console.log('Link:', linkValue);
+    // console.log('Filename:', filenameValue);
+
+    if (logoFile) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        var logoUrl = event.target.result;
+
+        let qrcode = new QrCodeWithLogo({
+          content: linkValue,
+          width: sizeValue,
+          // download: true,
+          logo: {
+            src: logoUrl
+          },
+          nodeQrCodeOptions: {
+            color: {
+              light: backgroundValue,
+              dark: foregroundValue
+            },
+            errorCorrectionLevel: levelValue
+          },
+          downloadName: filenameValue
+        });
+      };
+
+    reader.readAsDataURL(logoFile);
+    })
+  } else {
+    let qrcode = new QrCodeWithLogo({
+      content: linkValue,
+          width: sizeValue,
+          // download: true,
+          nodeQrCodeOptions: {
+            color: {
+              light: backgroundValue,
+              dark: foregroundValue
+            },
+            errorCorrectionLevel: levelValue
+          },
+          downloadName: filenameValue
+    });
+  }
 }
+
 
 </script>
 <script>

@@ -77,7 +77,7 @@ class Dynamic_Qrcode
     if (isset($_POST['size']))
         $size = min(max((int)$_POST['size'], 100), 1000);
     
-    $foreground = substr($_POST['foreground'], 1);                      // We eliminate the character "#" for the hexadecimal color
+    $foreground = substr($_POST['foreground'], 1); // We eliminate the character "#" for the hexadecimal color
     $background = substr($_POST['background'], 1);
     
     //$logo = $_POST['optionlogo'];
@@ -108,33 +108,20 @@ class Dynamic_Qrcode
         
         $options = $this->setOptions();
 
-        if(!file_exists(DIRECTORY.$data_to_db['filename'].'.'.$data_to_db['format'])){
-            $content = file_get_contents('https://api.qrserver.com/v1/create-qr-code/?data='.READ_PATH.$data_to_db['identifier'].'&amp;&size='.$options['size'].'x'.$options['size'].'&ecc='.$options['errorCorrectionLevel'].'&margin=0&color='.$options['foreground'].'&bgcolor='.$options['background'].'&qzone=2'.'&format='.$data_to_db['format']);
-            
-            $filename = DIRECTORY.$data_to_db['filename'].'.'.$data_to_db['format'];
-        
-            try{
-                file_put_contents($filename, $content);
-            }
-            catch(Exception $e){
-                $this->failure($e->getMessage());
-            }
-            
-            // If you want you can customide qr code with logo
-            //$this->addLogo($data_to_db['qrcode'], $options['optionlogo']);
-              
+        // Vérification de l'existence du fichier QR
+        if(!file_exists(DIRECTORY . $data_to_db['filename'] . '.' . $data_to_db['format'])) {
+            // Insertion des données dans la base de données
             $db = getDbInstance();
             $last_id = $db->insert('dynamic_qrcodes', $data_to_db);
-        }
-        else
+            
+            if ($last_id) {
+                $this->success('Qr code added successfully!');
+            } else {
+                echo 'Insert failed: ' . $db->getLastError();
+                exit();
+            }
+        } else {
             $this->failure('You cannot create a new qr code with an existing name on the server!');
-        
-        if ($last_id){
-            $this->success('Qr code added successfully!');
-        }
-        else{
-        echo 'Insert failed: ' . $db->getLastError();
-        exit();
         }
     }
     
