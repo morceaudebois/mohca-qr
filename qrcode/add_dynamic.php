@@ -70,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 <?php include BASE_PATH.'/forms/add_dynamic_form.php'; ?>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" onclick="qrlogoscript()">Submit</button>
+                  <span onclick="qrlogoscript()">Submit sans reload pour tester</span>
+                    <!-- <button type="submit" class="btn btn-primary" onclick="qrlogoscript()">Submit</button> -->
                 </div>
             </form>
         </div>
@@ -116,34 +117,43 @@ function qrlogoscript() {
     // console.log('Filename:', filenameValue);
 
     if (logoFile) {
-        var reader = new FileReader();
-        reader.onload = function(event) {
-            var logoUrl = event.target.result;
+      let qrcode = new QrCodeWithLogo({
+          content: linkValue,
+          width: sizeValue,
+          logo: {
+              src: 'http://localhost/mohca-qr/qrcode/dist/img/mohca-qr-manager.svg'
+          },
+          nodeQrCodeOptions: {
+              color: {
+                  light: backgroundValue,
+                  dark: foregroundValue
+              },
+              errorCorrectionLevel: levelValue
+          },
+          downloadName: filenameValue
+      });
 
-            let qrcode = new QrCodeWithLogo({
-                content: linkValue,
-                width: sizeValue,
-                // download: true,
-                logo: {
-                    src: logoUrl
-                },
-                nodeQrCodeOptions: {
-                    color: {
-                        light: backgroundValue,
-                        dark: foregroundValue
-                    },
-                    errorCorrectionLevel: levelValue
-                },
-                downloadName: filenameValue
-            });
-        };
-
-        reader.readAsDataURL(logoFile);
+      qrcode.getImage().then(image => {
+        $.ajax({
+          url:"save_qr.php",
+          // send the base64 post parameter
+          data:{
+            base64: image.src
+          },
+          // important POST method !
+          type:"post",
+          success: function (msg) {
+            console.log(msg)
+          },
+          complete:function(){
+            console.log("Ready");
+          }
+        });
+      });
     } else {
         let qrcode = new QrCodeWithLogo({
             content: linkValue,
             width: sizeValue,
-            // download: true,
             nodeQrCodeOptions: {
                 color: {
                     light: backgroundValue,
