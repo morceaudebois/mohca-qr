@@ -97,8 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 //     });
 // });
 
-
-  function qrlogoscript() {
+function qrlogoscript() {
     var backgroundValue = document.getElementById('background').value;
     var foregroundValue = document.getElementById('foreground').value;
     var sizeValue = document.querySelector('select[name="size"]').value;
@@ -117,46 +116,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     // console.log('Filename:', filenameValue);
 
     if (logoFile) {
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        var logoUrl = event.target.result;
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var logoUrl = event.target.result;
 
+            let qrcode = new QrCodeWithLogo({
+                content: linkValue,
+                width: sizeValue,
+                // download: true,
+                logo: {
+                    src: logoUrl
+                },
+                nodeQrCodeOptions: {
+                    color: {
+                        light: backgroundValue,
+                        dark: foregroundValue
+                    },
+                    errorCorrectionLevel: levelValue
+                },
+                downloadName: filenameValue
+            });
+        };
+
+        reader.readAsDataURL(logoFile);
+    } else {
         let qrcode = new QrCodeWithLogo({
-          content: linkValue,
-          width: sizeValue,
-          // download: true,
-          logo: {
-            src: logoUrl
-          },
-          nodeQrCodeOptions: {
-            color: {
-              light: backgroundValue,
-              dark: foregroundValue
+            content: linkValue,
+            width: sizeValue,
+            // download: true,
+            nodeQrCodeOptions: {
+                color: {
+                    light: backgroundValue,
+                    dark: foregroundValue
+                },
+                errorCorrectionLevel: levelValue
             },
-            errorCorrectionLevel: levelValue
-          },
-          downloadName: filenameValue
+            downloadName: filenameValue
         });
-      };
-
-    reader.readAsDataURL(logoFile);
-    })
-  } else {
-    let qrcode = new QrCodeWithLogo({
-      content: linkValue,
-          width: sizeValue,
-          // download: true,
-          nodeQrCodeOptions: {
-            color: {
-              light: backgroundValue,
-              dark: foregroundValue
-            },
-            errorCorrectionLevel: levelValue
-          },
-          downloadName: filenameValue
-    });
-  }
+    }
 }
+
 
 
 </script>
