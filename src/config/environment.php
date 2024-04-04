@@ -21,7 +21,7 @@ if(is_string(Getenv('TYPE')) && Getenv('TYPE') == "docker") {
     define('DATABASE_NAME', "qrcode");
     define('DATABASE_USER', "root");
     define('DATABASE_PASSWORD', "root");
-    define('DATABASE_PREFIX', "qr_");
+    define('DATABASE_PREFIX', "");
     define('DATABASE_CHARSET', "utf8");
 }
 /*
